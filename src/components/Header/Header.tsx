@@ -14,7 +14,7 @@ const Header = () => {
                 alignItems="center"
             >
                 <FaFeather size={20} style={{ marginRight: "8px" }} />
-                <Text fontSize="2xl" textStyle="body" fontWeight="bold">Blog Plate</Text>
+                <Text fontSize="2xl" textStyle="body" fontWeight="bold">BlogIQ</Text>
             </Flex>
         </Box>
     )

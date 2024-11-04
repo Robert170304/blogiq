@@ -11,7 +11,7 @@ const HeroSection = () => {
             height={300}
         >
             <Box textAlign={{ base: "center", md: "left" }} mb={{ base: "4", md: "0" }} width="50%" >
-                <Text textStyle="body" fontSize="6xl" fontWeight="bold" mb="4">Blog Plate</Text>
+                <Text textStyle="body" fontSize="6xl" fontWeight="bold" mb="4">BlogIQ</Text>
                 <Flex as="form" justify={{ base: "center", md: "start" }}>
                     <Box position="relative">
                         <Input

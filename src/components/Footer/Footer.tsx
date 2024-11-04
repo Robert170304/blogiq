@@ -12,7 +12,7 @@ const Footer = () => {
             alignItems="center"
             mt="20px"
         >
-            <div>&copy; Blog Plate. All rights reserved.</div>
+            <div>&copy; BlogIQ. All rights reserved.</div>
         </Container>
 
     )
