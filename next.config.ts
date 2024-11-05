@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
   },
   images: {
     domains: ['via.placeholder.com', 'random-image-pepebigotes.vercel.app'],
+  },
+  "rules": {
+    "@typescript-eslint/no-empty-object-type": "off"
   }
 };
 
