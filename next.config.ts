@@ -9,7 +9,8 @@ const nextConfig: NextConfig = {
     domains: ['via.placeholder.com', 'random-image-pepebigotes.vercel.app', 'lh3.googleusercontent.com'],
   },
   "rules": {
-    "@typescript-eslint/no-empty-object-type": "off"
+    "@typescript-eslint/no-empty-object-type": "off",
+    reactStrictMode: true,
   }
 };
 

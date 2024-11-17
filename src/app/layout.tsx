@@ -20,19 +20,18 @@ export const metadata: Metadata = {
 
 interface LayoutProps {
   children: React.ReactNode;
-  params: {
-    session: Session | null; // Ensure this matches your session setup
-  };
+  params: Promise<{ session: Session | null }>;
 }
 
-export default function RootLayout({ children, params }: LayoutProps) {
+export default async function RootLayout({ children, params }: LayoutProps) {
+  const resolvedParams = await params;
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className={inter.className}>
-        <Providers session={params.session}>
+        <Providers session={resolvedParams?.session || null}>
           <Flex direction="column" minHeight="100vh">
             <Box
               flex="1"
