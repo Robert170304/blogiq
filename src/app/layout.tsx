@@ -3,6 +3,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Provider } from "@/components/ui/provider";
 import { Inter } from 'next/font/google';
+import { Box, Container, Flex } from "@chakra-ui/react";
+import Header from "@/components/Header/Header";
+import Footer from "@/components/Footer/Footer";
 
 const inter = Inter({
   subsets: ['latin'],
@@ -26,8 +29,21 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className={inter.className}>
-        <Provider>{children}</Provider>
+        <Provider>
+          <Flex direction="column" minHeight="100vh">
+            <Box flex="1"
+              pr={{ base: "10px", sm: "10px", md: "10", lg: "20" }}
+              pl={{ base: "10px", sm: "10px", md: "10", lg: "20" }}
+            >
+              <Header />
+              <Container padding="0" overflowY="scroll">
+                {children}
+              </Container>
+            </Box>
+            <Footer />
+          </Flex>
+        </Provider>
       </body>
-    </html>
+    </html >
   );
 }

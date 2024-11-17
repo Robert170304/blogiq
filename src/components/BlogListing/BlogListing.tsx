@@ -134,7 +134,9 @@ const BlogListing: React.FC = () => {
                     {blogCategories.map((category) => (
                         <Tabs.Content value={category.categoryKey} key={category.categoryKey}>
                             {isFetchingBlogs ? <VStack colorPalette="teal">
-                                <Spinner color="colorPalette.600" />
+                                <Spinner
+                                    color='red'
+                                    size="xl" />
                                 <Text color="colorPalette.600">Loading...</Text>
                             </VStack> : <Grid
                                 templateColumns={{ base: "1fr", md: "1fr 1fr", lg: "repeat(2, 1fr)" }}

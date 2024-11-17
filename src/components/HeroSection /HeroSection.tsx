@@ -1,57 +1,38 @@
-import { Box, Button, Flex, Input, Text } from '@chakra-ui/react'
-import React from 'react'
+"use client";
+
+import { Box, Flex, Text } from '@chakra-ui/react';
+import React from 'react';
 
 const HeroSection = () => {
     return (
         <Flex
             as="section"
             align="center"
-            justify="space-between"
-            direction={{ base: "column", md: "row" }}
-            height={300}
+            justify="center"
+            direction="column"
+            height="80vh"
+            backgroundImage="url('/long-exposure.jpg')"
+            backgroundSize="cover"
+            backgroundPosition="center"
+            borderRadius="lg"
         >
-            <Box textAlign={{ base: "center", md: "left" }} mb={{ base: "4", md: "0" }} width="50%" >
-                <Text textStyle="body" fontSize="6xl" fontWeight="bold" mb="4">BlogIQ</Text>
-                <Flex as="form" justify={{ base: "center", md: "start" }}>
-                    <Box position="relative">
-                        <Input
-                            textStyle="body"
-                            placeContent="Enter your email"
-                            placeholder='Enter your email'
-                            size="lg"
-                            variant="outline"
-                            width="300px"
-                            borderRadius={120}
-                            border="2px solid #e5e7eb"
-                            padding="0 40px 0 10px"
-                        />
-                        <Button
-                            textStyle="body"
-                            bg="#030303"
-                            color="white"
-                            pr={7}
-                            pl={7}
-                            borderRadius={120}
-                            colorScheme="black"
-                            size="lg"
-                            fontWeight="bold"
-                            position="absolute"
-                            right="-96px"
-                        >
-                            Subscribe
-                        </Button>
-                    </Box>
-                </Flex>
-            </Box>
-            <Box textAlign={{ base: "center", md: "right" }} width="50%">
-                <Flex as="div" justifyContent="center">
-                    <Text fontSize="lg" textStyle="body" color="#85878c" width="310px" fontWeight={600}>
-                        New product features, the latest in technology, solutions, and updates.
-                    </Text>
-                </Flex>
+            <Box
+                background="rgba(255, 255, 255, 0.2)"
+                backdropFilter="blur(7px)"
+                borderRadius="lg"
+                padding="2rem"
+                width={{ base: "90%", md: "60%" }}
+                textAlign="center"
+            >
+                <Text fontSize="4xl" fontWeight="bold" color="#ffffff">
+                    Unleash the Power of AI to Create, Curate, and Inspire.
+                </Text>
+                <Text fontSize="md" fontWeight="medium" color="#eeeeee" mt="4">
+                    BlogIQ combines the latest in AI technology to help you generate unique and engaging content effortlessly. Whether you&apos;re looking for a fresh blog idea or need assistance drafting your next post, our AI is here to help.
+                </Text>
             </Box>
         </Flex>
-    )
+    );
 }
 
-export default HeroSection
+export default HeroSection;
