@@ -23,7 +23,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
   params: {
-    session: undefined;
+    session: null;
   };
 }>) {
   return (

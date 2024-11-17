@@ -5,7 +5,7 @@ import { Provider } from "@/components/ui/provider";
 
 interface ProvidersProps {
     children: React.ReactNode;
-    session: undefined; // Replace with the correct session type if available
+    session: null; // Replace with the correct session type if available
 }
 
 export default function Providers({ children, session }: Readonly<ProvidersProps>) {
