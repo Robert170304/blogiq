@@ -1,16 +1,15 @@
-// layout.tsx
 import type { Metadata } from "next";
 import "./globals.css";
-import { Provider } from "@/components/ui/provider";
-import { Inter } from 'next/font/google';
+import { Inter } from "next/font/google";
 import { Box, Container, Flex } from "@chakra-ui/react";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
+import Providers from "./Providers";
 
 const inter = Inter({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  display: 'swap', // Optional: improves font loading
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap", // Optional: improves font loading
 });
 
 export const metadata: Metadata = {
@@ -20,8 +19,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  params: { session },
 }: Readonly<{
   children: React.ReactNode;
+  params: {
+    session: undefined;
+  };
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -29,9 +32,10 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className={inter.className}>
-        <Provider>
+        <Providers session={session}>
           <Flex direction="column" minHeight="100vh">
-            <Box flex="1"
+            <Box
+              flex="1"
               pr={{ base: "10px", sm: "10px", md: "10", lg: "20" }}
               pl={{ base: "10px", sm: "10px", md: "10", lg: "20" }}
             >
@@ -42,8 +46,8 @@ export default function RootLayout({
             </Box>
             <Footer />
           </Flex>
-        </Provider>
+        </Providers>
       </body>
-    </html >
+    </html>
   );
 }

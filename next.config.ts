@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["@chakra-ui/react"],
   },
   images: {
-    domains: ['via.placeholder.com', 'random-image-pepebigotes.vercel.app'],
+    domains: ['via.placeholder.com', 'random-image-pepebigotes.vercel.app', 'lh3.googleusercontent.com'],
   },
   "rules": {
     "@typescript-eslint/no-empty-object-type": "off"
