@@ -5,6 +5,7 @@ import { Box, Container, Flex } from "@chakra-ui/react";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import Providers from "./Providers";
+import { Session } from "next-auth";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -23,7 +24,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
   params: {
-    session: null;
+    session: Session | null;
   };
 }>) {
   return (

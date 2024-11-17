@@ -2,10 +2,11 @@
 
 import { SessionProvider } from "next-auth/react";
 import { Provider } from "@/components/ui/provider";
+import { Session } from "next-auth";
 
 interface ProvidersProps {
     children: React.ReactNode;
-    session: null; // Replace with the correct session type if available
+    session: Session | null; // Replace with the correct session type if available
 }
 
 export default function Providers({ children, session }: Readonly<ProvidersProps>) {
