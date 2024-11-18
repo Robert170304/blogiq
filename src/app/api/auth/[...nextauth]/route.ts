@@ -1,4 +1,5 @@
-import NextAuth from "next-auth";
+import NextAuth, { Session, User } from "next-auth";
+import { JWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
 
 const handler = NextAuth({
@@ -27,6 +28,21 @@ const handler = NextAuth({
         },
     },
     useSecureCookies: process.env.NODE_ENV === "production",
+    callbacks: {
+        async jwt({ token, user }: { token: JWT; user?: User }) {
+            if (user) {
+                token.id = user.id; // Attach the `id` from the user object
+            }
+            return token;
+        },
+
+        async session({ session, token }: { session: Session; token: JWT }) {
+            if (token) {
+                session.user.id = token.id; // Ensure `session.user.id` is populated
+            }
+            return session;
+        },
+    },
 });
 
 export { handler as POST, handler as GET }; // App Router requires explicit HTTP methods
