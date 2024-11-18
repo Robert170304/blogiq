@@ -11,7 +11,8 @@ import { PopoverBody, PopoverContent, PopoverRoot, PopoverTrigger } from '../ui/
 import { GoSignOut } from 'react-icons/go';
 
 const Header = () => {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
+    console.log("🚀 ~ Header ~ session:", session, status)
     const [openProfileTooltip, setOpenProfileTooltip] = useState(false)
     return (
         <HeaderWrapper>
