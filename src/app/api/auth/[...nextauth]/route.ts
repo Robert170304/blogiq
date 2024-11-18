@@ -13,6 +13,20 @@ const handler = NextAuth({
     session: {
         strategy: 'jwt',
     },
+    cookies: {
+        sessionToken: {
+            name: process.env.NODE_ENV === "production"
+                ? "__Secure-next-auth.session-token"
+                : "next-auth.session-token",
+            options: {
+                httpOnly: true,
+                sameSite: "lax",
+                path: "/",
+                secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+            },
+        },
+    },
+    useSecureCookies: process.env.NODE_ENV === "production",
 });
 
 export { handler as POST, handler as GET }; // App Router requires explicit HTTP methods
