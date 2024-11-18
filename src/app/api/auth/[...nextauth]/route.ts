@@ -29,17 +29,17 @@ const handler = NextAuth({
     },
     useSecureCookies: process.env.NODE_ENV === "production",
     callbacks: {
-        async jwt({ token, user }: { token: JWT; user?: User }) {
-            console.log("🚀 ~ jwt ~ token, user:", token, user)
-            return token;
-        },
-
         async session({ session, token }: { session: Session; token: JWT }) {
             console.log("🚀 ~ session ~ session, token:", session, token)
             if (token) {
                 session.user.id = token.sub; // Ensure `session.user.id` is populated
             }
             return session;
+        },
+        async jwt({ token, user }: { token: JWT; user?: User }) {
+            console.log("🚀 ~ jwt ~ token, user:", token, user)
+            delete token.image
+            return token;
         },
     },
 });
