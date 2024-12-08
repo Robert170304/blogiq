@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { Box, Container, Flex } from "@chakra-ui/react";
-import Header from "@/components/Header/Header";
-import Footer from "@/components/Footer/Footer";
 import Providers from "./Providers";
 import { Session } from "next-auth";
+import { Toaster } from 'react-hot-toast';
+import Header from "@blogiq/components/Header/Header";
+import Footer from "@blogiq/components/Footer/Footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -23,7 +24,7 @@ interface LayoutProps {
   params: Promise<{ session: Session | null }>;
 }
 
-export default async function RootLayout({ children, params }: LayoutProps) {
+export default async function RootLayout({ children, params }: Readonly<LayoutProps>) {
   const resolvedParams = await params;
   return (
     <html lang="en" suppressHydrationWarning>
@@ -32,6 +33,7 @@ export default async function RootLayout({ children, params }: LayoutProps) {
       </head>
       <body className={inter.className}>
         <Providers session={resolvedParams?.session || null}>
+          <Toaster />
           <Flex direction="column" minHeight="100vh">
             <Box
               flex="1"

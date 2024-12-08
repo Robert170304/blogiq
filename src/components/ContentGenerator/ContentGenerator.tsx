@@ -4,9 +4,10 @@ import { Box, Flex, Input, Text } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { Button } from '../ui/button'
 import TypingText from '../TypingText/TypingText'
+import GeneratedContentToolbar from '../GeneratedContentToolbar/GeneratedContentToolbar'
 
 const ContentGenerator = () => {
-    const [prompt, setPrompt] = useState("Unknown facts about african wildlife")
+    const [prompt, setPrompt] = useState("")
     const [generatedText, setGeneratedText] = useState("")
     const [isGeneratingText, setIsGeneratingText] = useState(false)
 
@@ -36,7 +37,6 @@ const ContentGenerator = () => {
     return (
         <Flex
             as="section"
-            align="center"
             justify="space-between"
             direction="column"
         >
@@ -87,7 +87,7 @@ const ContentGenerator = () => {
             </Flex>
 
             {generatedText ? <Box padding="10px 10px"
-                margin="15px 0"
+                margin="15px 0 0 0"
                 borderRadius="15px"
                 background="#181818"
                 color="white"
@@ -95,7 +95,7 @@ const ContentGenerator = () => {
                 minHeight="300px"
             > <TypingText text={generatedText} />
             </Box> : <Box padding="10px 10px"
-                margin="15px 0"
+                margin="15px 0 0 0"
                 borderRadius="15px"
                 background="#181818"
                 color="white"
@@ -117,6 +117,7 @@ const ContentGenerator = () => {
                     Generate blog post drafts, summaries, or even recommendations for further reading
                 </Text>
             </Box>}
+            {generatedText && <GeneratedContentToolbar generatedContent={generatedText} />}
         </Flex>
     )
 }

@@ -1,5 +1,5 @@
-import ContentGenerator from "@/components/ContentGenerator/ContentGenerator";
-import HeroSection from "@/components/HeroSection /HeroSection";
+import ContentGenerator from "@blogiq/components/ContentGenerator/ContentGenerator";
+import HeroSection from "@blogiq/components/HeroSection /HeroSection";
 import { Flex } from "@chakra-ui/react";
 import React from "react";
 

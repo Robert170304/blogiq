@@ -5,10 +5,11 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
-import { FaFeather } from 'react-icons/fa';
+import { FaFeather, FaSignOutAlt } from 'react-icons/fa';
 import HeaderWrapper from './header.style'
 import { PopoverBody, PopoverContent, PopoverRoot, PopoverTrigger } from '../ui/popover';
-import { GoSignOut } from 'react-icons/go';
+import { redirect } from 'next/navigation';
+import { HiDocumentDuplicate } from 'react-icons/hi2';
 
 const Header = () => {
     const { data: session, status } = useSession();
@@ -93,14 +94,30 @@ const Header = () => {
                                 </PopoverTrigger>
                                 <PopoverContent>
                                     <PopoverBody>
-                                        <Button
-                                            color="#fff"
-                                            size="sm"
-                                            onClick={() => signOut()} // Replace with your login handler
-                                        >
-                                            <GoSignOut />
-                                            Sign out
-                                        </Button>
+                                        <Flex alignItems="center" flexDirection="column" justifyContent="flex-start" gap="10px" >
+                                            <Button
+                                                width="100%"
+                                                color="#fff"
+                                                size="sm"
+                                                display="flex"
+                                                justifyContent="flex-start"
+                                                onClick={() => signOut()} // Replace with your login handler
+                                            >
+                                                <FaSignOutAlt />
+                                                Sign out
+                                            </Button>
+                                            <Button
+                                                width="100%"
+                                                color="#fff"
+                                                display="flex"
+                                                justifyContent="flex-start"
+                                                size="sm"
+                                                onClick={() => redirect(`/drafts`)} // Replace with your login handler
+                                            >
+                                                <HiDocumentDuplicate />
+                                                Drafts
+                                            </Button>
+                                        </Flex>
                                     </PopoverBody>
                                 </PopoverContent>
                             </PopoverRoot>
