@@ -1,12 +1,12 @@
+"use client"
 import BlogListing from '@blogiq/components/BlogListing/BlogListing'
-import { loginIsRequiredServer } from '@blogiq/lib/auth';
+import withAuth from '@blogiq/components/withAuth/withAuth';
 import React from 'react'
 
-const index = async () => {
-    await loginIsRequiredServer();
+const Drafts = () => {
     return (
         <BlogListing />
     )
 }
 
-export default index
+export default withAuth(Drafts)

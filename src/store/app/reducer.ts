@@ -3,6 +3,7 @@ import actions from "./actions";
 
 const initialState = {
   savedDrafts: [],
+  userData: {}
 };
 
 const appReducer = (state = initialState, action) => {
@@ -13,6 +14,11 @@ const appReducer = (state = initialState, action) => {
       return {
         ...state,
         savedDrafts: action.data,
+      };
+    case actions.SET_USER_DATA:
+      return {
+        ...state,
+        userData: action.data,
       };
 
     default:

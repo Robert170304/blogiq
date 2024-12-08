@@ -7,6 +7,8 @@ import BlogListWrapper from './bloglisting.style';
 import { FaArrowDown } from 'react-icons/fa6';
 import { useSelector } from 'react-redux';
 import type { RootState } from '@blogiq/store/store';
+import { isEmpty } from 'lodash';
+import EmptyDraftsScreen from '../EmptyDraftsScreen/EmptyDraftsScreen';
 
 const BlogListing: React.FC = () => {
     const [visiblePostsCount, setVisiblePostsCount] = useState<number>(10);
@@ -24,7 +26,7 @@ const BlogListing: React.FC = () => {
 
     return (
         <BlogListWrapper>
-            <Grid
+            {isEmpty(savedDrafts) ? <EmptyDraftsScreen /> : <Grid
                 templateColumns={{ base: "1fr", md: "1fr 1fr", lg: "repeat(3, 1fr)" }}
                 gap="6"
                 p="20px 0"
@@ -40,7 +42,8 @@ const BlogListing: React.FC = () => {
                         <Text color="colorPalette.600">Loading...</Text>
                     </VStack>
                 </GridItem>}
-            </Grid>
+            </Grid>}
+
             {!isLoadMorePosts && visiblePostsCount < savedDrafts.length &&
                 (<Box display="flex" width="100%" justifyContent="center" m="10px">
                     <Button

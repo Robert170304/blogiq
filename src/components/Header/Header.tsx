@@ -1,7 +1,6 @@
 "use client";
 
 import { Box, Flex, Text, Button, } from '@chakra-ui/react';
-import { signIn, signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
@@ -10,11 +9,55 @@ import HeaderWrapper from './header.style'
 import { PopoverBody, PopoverContent, PopoverRoot, PopoverTrigger } from '../ui/popover';
 import { redirect } from 'next/navigation';
 import { HiDocumentDuplicate } from 'react-icons/hi2';
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from 'axios';
+import appActions from '@blogiq/store/app/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState } from '@blogiq/store/store';
+import { isEmpty } from 'lodash';
+import { notify } from '@blogiq/app/utils/commonFunctions';
+
+const { setUserData } = appActions;
 
 const Header = () => {
-    const { data: session, status } = useSession();
-    console.log("🚀 ~ Header ~ session:", session, status)
+    // const { data: session, status } = useSession();
+    // console.log("🚀 ~ Header ~ session:", session, status)
+    const dispatch = useDispatch()
     const [openProfileTooltip, setOpenProfileTooltip] = useState(false)
+    const userData = useSelector((state: RootState) => state.app.userData);
+    console.log("🚀 ~ Header ~ userData:", userData)
+
+    const handleLogin = useGoogleLogin({
+        onSuccess: tokenResponse => {
+            console.log("🚀 ~ handleLogin ~ credentialResponse.credential:", tokenResponse)
+            fetchUserProfile(tokenResponse?.access_token)
+        },
+    });
+
+    const handleSignOut = () => {
+        dispatch(setUserData({}))
+    }
+
+    const fetchUserProfile = async (accessToken: string) => {
+        try {
+            const response = await axios.get('https://www.googleapis.com/oauth2/v2/userinfo', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            console.log("🚀 ~ fetchUserProfile ~ response.data:", response.data);
+            dispatch(setUserData(response.data))
+        } catch (error) {
+            if (error instanceof Error) {
+                console.error("🚀 ~ fetchUserProfile ~ error:", error.message);
+                notify(error.message)
+            } else {
+                console.error("🚀 ~ fetchUserProfile ~ error:", error);
+                notify(error)
+            }
+        }
+    };
+
     return (
         <HeaderWrapper>
             <Box
@@ -50,7 +93,7 @@ const Header = () => {
                     {/* Right Section */}
 
                     <Flex alignItems="center">
-                        {!session ? (
+                        {isEmpty(userData) ? (
                             <Button
                                 fontSize="13px"
                                 bg="#030303"
@@ -60,7 +103,7 @@ const Header = () => {
                                 colorScheme="black"
                                 size="sm"
                                 borderRadius="30px"
-                                onClick={() => signIn('google')} // Replace with your login handler
+                                onClick={() => handleLogin()} // Replace with your login handler
                             >
                                 <Image
                                     alt='google logo'
@@ -78,12 +121,12 @@ const Header = () => {
                                 onOpenChange={(e) => setOpenProfileTooltip(e.open)}>
                                 <PopoverTrigger>
                                     <Flex alignItems="center" gap="10px" >
-                                        <Text fontWeight={500}>{session.user?.name}</Text>
+                                        <Text fontWeight={500}>{userData?.name}</Text>
 
                                         <div className='profile-img-container'>
                                             <Image
-                                                src={session.user?.image ?? 'https://via.placeholder.com/300x200'}
-                                                alt={session.user?.name || 'User Image'}
+                                                src={userData?.picture ?? 'https://via.placeholder.com/300x200'}
+                                                alt={userData?.name || 'User Image'}
                                                 width={30}
                                                 height={30}
                                                 blurDataURL='https://via.placeholder.com/300x200'
@@ -101,7 +144,7 @@ const Header = () => {
                                                 size="sm"
                                                 display="flex"
                                                 justifyContent="flex-start"
-                                                onClick={() => signOut()} // Replace with your login handler
+                                                onClick={() => handleSignOut()} // Replace with your login handler
                                             >
                                                 <FaSignOutAlt />
                                                 Sign out

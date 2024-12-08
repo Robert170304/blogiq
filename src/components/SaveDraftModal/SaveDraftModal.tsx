@@ -17,10 +17,10 @@ import SaveDraftModalWrapper from "./savedraftmodal.style"
 import { Button } from "../ui/button"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@blogiq/store/store"
-import actions from "@blogiq/store/app/actions"
 import moment from "moment"
 import { notify } from "@blogiq/app/utils/commonFunctions"
 import useWindowSize from "@blogiq/hooks/useWindowSizes"
+import appActions from "@blogiq/store/app/actions"
 
 interface SaveDraftModalProps {
     isOpen: boolean;
@@ -28,7 +28,7 @@ interface SaveDraftModalProps {
     generatedContent: string;
 }
 
-const { setSavedDrafts } = actions;
+const { setSavedDrafts } = appActions;
 
 
 export const SaveDraftModal: React.FC<SaveDraftModalProps> = ({ generatedContent, isOpen, closeModal }) => {

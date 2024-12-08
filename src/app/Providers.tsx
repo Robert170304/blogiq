@@ -7,6 +7,7 @@ import { persistor, store } from "@blogiq/store/store";
 import { Provider as ChakraUIProvider } from "@blogiq/components/ui/provider";
 import { PersistGate } from "redux-persist/integration/react";
 import { Flex, Text } from "@chakra-ui/react";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 interface ProvidersProps {
     children: React.ReactNode;
@@ -16,20 +17,22 @@ interface ProvidersProps {
 export default function Providers({ children, session }: Readonly<ProvidersProps>) {
     return (
         <SessionProvider session={session}>
-            <ChakraUIProvider>
-                <ReduxProvider store={store}>
-                    <PersistGate
-                        loading={
-                            <Flex as="div" width="100%" height="100%" justifyContent="center" alignItems="center" >
-                                <Text>Loading...</Text>
-                            </Flex>
-                        }
-                        persistor={persistor}
-                    >
-                        {children}
-                    </PersistGate>
-                </ReduxProvider>
-            </ChakraUIProvider>
+            <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
+                <ChakraUIProvider>
+                    <ReduxProvider store={store}>
+                        <PersistGate
+                            loading={
+                                <Flex as="div" width="100%" height="100%" justifyContent="center" alignItems="center" >
+                                    <Text>Loading...</Text>
+                                </Flex>
+                            }
+                            persistor={persistor}
+                        >
+                            {children}
+                        </PersistGate>
+                    </ReduxProvider>
+                </ChakraUIProvider>
+            </GoogleOAuthProvider>
         </SessionProvider>
     );
 }
