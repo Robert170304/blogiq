@@ -8,7 +8,9 @@ import { BsFillSave2Fill } from 'react-icons/bs'
 import { copyToClipBoard, stopSpeech, startSpeech } from '../../app/utils/commonFunctions'
 import { FaPause } from 'react-icons/fa'
 import { SaveDraftModal } from '../SaveDraftModal/SaveDraftModal'
-import { useSession } from 'next-auth/react'
+import { useSelector } from 'react-redux'
+import type { RootState } from '@blogiq/store/store'
+import { isEmpty } from 'lodash'
 
 interface GeneratedContentToolbarProps {
     generatedContent: string;
@@ -17,8 +19,7 @@ interface GeneratedContentToolbarProps {
 const GeneratedContentToolbar: React.FC<GeneratedContentToolbarProps> = ({ generatedContent }) => {
     const [openDraftModal, setOpenDraftModal] = useState(false);
     const [ttsStatus, setTTSStatus] = useState("idle");
-    const { status } = useSession();
-    console.log("🚀 ~ status GeneratedContentToolbar:", status)
+    const userData = useSelector((state: RootState) => state.app.userData);
     const toolbarOptions = [
         {
             id: 1,
@@ -53,7 +54,7 @@ const GeneratedContentToolbar: React.FC<GeneratedContentToolbarProps> = ({ gener
             label: 'Save as draft',
             icon: <BsFillSave2Fill />,
             action: () => setOpenDraftModal(true),
-            active: status === "authenticated",
+            active: !isEmpty(userData),
         }
     ]
     return (

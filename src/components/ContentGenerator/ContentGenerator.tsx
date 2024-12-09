@@ -1,7 +1,7 @@
 "use client"
 
 import { Box, Flex, Input, Text } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Button } from '../ui/button'
 import TypingText from '../TypingText/TypingText'
 import GeneratedContentToolbar from '../GeneratedContentToolbar/GeneratedContentToolbar'
@@ -10,6 +10,7 @@ const ContentGenerator = () => {
     const [prompt, setPrompt] = useState("")
     const [generatedText, setGeneratedText] = useState("")
     const [isGeneratingText, setIsGeneratingText] = useState(false)
+    const boxRef = useRef<HTMLDivElement | null>(null);
 
     const generateContext = async () => {
         setIsGeneratingText(true)
@@ -86,14 +87,25 @@ const ContentGenerator = () => {
                 </Box>
             </Flex>
 
-            {generatedText ? <Box padding="10px 10px"
+            {generatedText ? <Box
+                ref={boxRef}
+                padding="10px 10px"
                 margin="15px 0 0 0"
                 borderRadius="15px"
                 background="#181818"
                 color="white"
                 width="100%"
                 minHeight="300px"
-            > <TypingText text={generatedText} />
+                maxHeight="300px"
+                overflow="scroll"
+            > <TypingText text={generatedText} onTextUpdate={() => {
+                if (boxRef.current) {
+                    boxRef.current.scrollTo({
+                        top: boxRef.current.scrollHeight,
+                        behavior: 'smooth',
+                    });
+                }
+            }} />
             </Box> : <Box padding="10px 10px"
                 margin="15px 0 0 0"
                 borderRadius="15px"

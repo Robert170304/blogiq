@@ -20,8 +20,6 @@ import { notify } from '@blogiq/app/utils/commonFunctions';
 const { setUserData } = appActions;
 
 const Header = () => {
-    // const { data: session, status } = useSession();
-    // console.log("🚀 ~ Header ~ session:", session, status)
     const dispatch = useDispatch()
     const [openProfileTooltip, setOpenProfileTooltip] = useState(false)
     const userData = useSelector((state: RootState) => state.app.userData);
