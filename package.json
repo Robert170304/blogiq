@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^3.0.2",
-    "@emotion/react": "^11.13.3",
-    "@emotion/styled": "^11.13.0",
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
     "@huggingface/inference": "^2.8.1",
     "@prisma/client": "^6.0.0",
     "@react-oauth/google": "^0.12.1",
