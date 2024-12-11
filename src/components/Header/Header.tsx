@@ -22,7 +22,7 @@ const { setUserData } = appActions;
 const isNextJSGoogleSignin = process.env.NEXT_PUBLIC_IS_NEXTJS_SIGNIN === "true"
 const Header = () => {
     const { data: session, status } = useSession();
-    console.log("🚀 ~ isNextJSGoogleSignin:", isNextJSGoogleSignin)
+    console.log("🚀 ~ isNextJSGoogleSignin:", isNextJSGoogleSignin, process.env.NEXT_PUBLIC_IS_NEXTJS_SIGNIN)
     console.log("🚀 ~ Header ~ session:", session, status)
     const dispatch = useDispatch()
     const [openProfileTooltip, setOpenProfileTooltip] = useState(false)
