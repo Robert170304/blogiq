@@ -3,6 +3,7 @@
 import { Box, Flex, Text, Button, } from '@chakra-ui/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import React, { useState } from 'react';
 import { FaFeather, FaSignOutAlt } from 'react-icons/fa';
 import HeaderWrapper from './header.style'
@@ -18,8 +19,11 @@ import { isEmpty } from 'lodash';
 import { notify } from '@blogiq/app/utils/commonFunctions';
 
 const { setUserData } = appActions;
-
+const isNextJSGoogleSignin = process.env.NEXT_PUBLIC_IS_NEXTJS_SIGNIN === "true"
 const Header = () => {
+    const { data: session, status } = useSession();
+    console.log("🚀 ~ isNextJSGoogleSignin:", isNextJSGoogleSignin)
+    console.log("🚀 ~ Header ~ session:", session, status)
     const dispatch = useDispatch()
     const [openProfileTooltip, setOpenProfileTooltip] = useState(false)
     const userData = useSelector((state: RootState) => state.app.userData);
@@ -91,7 +95,7 @@ const Header = () => {
                     {/* Right Section */}
 
                     <Flex alignItems="center">
-                        {isEmpty(userData) ? (
+                        {(isNextJSGoogleSignin ? !session : isEmpty(userData)) ? (
                             <Button
                                 fontSize="13px"
                                 bg="#030303"
@@ -101,7 +105,13 @@ const Header = () => {
                                 colorScheme="black"
                                 size="sm"
                                 borderRadius="30px"
-                                onClick={() => handleLogin()} // Replace with your login handler
+                                onClick={() => {
+                                    if (isNextJSGoogleSignin) {
+                                        signIn("google")
+                                    } else {
+                                        handleLogin()
+                                    }
+                                }}
                             >
                                 <Image
                                     alt='google logo'
@@ -119,12 +129,12 @@ const Header = () => {
                                 onOpenChange={(e) => setOpenProfileTooltip(e.open)}>
                                 <PopoverTrigger>
                                     <Flex alignItems="center" gap="10px" >
-                                        <Text fontWeight={500}>{userData?.name}</Text>
+                                        <Text fontWeight={500}>{isNextJSGoogleSignin ? session?.user?.name : userData?.name}</Text>
 
                                         <div className='profile-img-container'>
                                             <Image
-                                                src={userData?.picture ?? 'https://via.placeholder.com/300x200'}
-                                                alt={userData?.name || 'User Image'}
+                                                src={isNextJSGoogleSignin ? session?.user?.image ?? 'https://via.placeholder.com/300x200' : userData?.picture ?? 'https://via.placeholder.com/300x200'}
+                                                alt={isNextJSGoogleSignin ? session?.user?.name || 'User Image' : userData?.name || 'User Image'}
                                                 width={30}
                                                 height={30}
                                                 blurDataURL='https://via.placeholder.com/300x200'
@@ -142,7 +152,13 @@ const Header = () => {
                                                 size="sm"
                                                 display="flex"
                                                 justifyContent="flex-start"
-                                                onClick={() => handleSignOut()} // Replace with your login handler
+                                                onClick={() => {
+                                                    if (isNextJSGoogleSignin) {
+                                                        signOut()
+                                                    } else {
+                                                        handleSignOut()
+                                                    }
+                                                }}
                                             >
                                                 <FaSignOutAlt />
                                                 Sign out
@@ -153,7 +169,7 @@ const Header = () => {
                                                 display="flex"
                                                 justifyContent="flex-start"
                                                 size="sm"
-                                                onClick={() => redirect(`/drafts`)} // Replace with your login handler
+                                                onClick={() => redirect(`/drafts`)}
                                             >
                                                 <HiDocumentDuplicate />
                                                 Drafts
