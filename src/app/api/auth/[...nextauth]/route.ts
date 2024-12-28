@@ -1,6 +1,3 @@
-import { authConfig } from "@blogiq/lib/auth";
-import NextAuth from "next-auth";
+import { handlers } from "@blogiq/lib/auth/authConfig";
 
-const handler = NextAuth(authConfig);
-
-export { handler as POST, handler as GET }; // App Router requires explicit HTTP methods
+export const { GET, POST } = handlers

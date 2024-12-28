@@ -27,7 +27,8 @@
       "@blogiq/components/*": ["src/components/*"],
       "@blogiq/app/*": ["src/app/*"],
       "@blogiq/lib/*": ["src/lib/*"]
-    }
+    },
+    "types": ["next-auth"]
   },
   "include": [
     "node_modules",

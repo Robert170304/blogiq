@@ -3,7 +3,7 @@
 import { Box, Flex, Text, Button, } from '@chakra-ui/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import React, { useState } from 'react';
 import { FaFeather, FaSignOutAlt } from 'react-icons/fa';
 import HeaderWrapper from './header.style'
@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '@blogiq/store/store';
 import { isEmpty } from 'lodash';
 import { notify } from '@blogiq/app/utils/commonFunctions';
+import { handleGoogleSignIn } from '@blogiq/lib/auth/googleSignInServerAction';
 
 const { setUserData } = appActions;
 const isNextJSGoogleSignin = process.env.NEXT_PUBLIC_IS_NEXTJS_SIGNIN === "true"
@@ -28,17 +29,13 @@ const Header = () => {
     const [openProfileTooltip, setOpenProfileTooltip] = useState(false)
     const userData = useSelector((state: RootState) => state.app.userData);
     console.log("🚀 ~ Header ~ userData:", userData)
-
+    const isUserLoggedIn = isNextJSGoogleSignin ? !session : isEmpty(userData);
     const handleLogin = useGoogleLogin({
         onSuccess: tokenResponse => {
             console.log("🚀 ~ handleLogin ~ credentialResponse.credential:", tokenResponse)
             fetchUserProfile(tokenResponse?.access_token)
         },
     });
-
-    const handleSignOut = () => {
-        dispatch(setUserData({}))
-    }
 
     const fetchUserProfile = async (accessToken: string) => {
         try {
@@ -95,7 +92,7 @@ const Header = () => {
                     {/* Right Section */}
 
                     <Flex alignItems="center">
-                        {(isNextJSGoogleSignin ? !session : isEmpty(userData)) ? (
+                        {isUserLoggedIn ? (
                             <Button
                                 fontSize="13px"
                                 bg="#030303"
@@ -107,7 +104,7 @@ const Header = () => {
                                 borderRadius="30px"
                                 onClick={() => {
                                     if (isNextJSGoogleSignin) {
-                                        signIn("google")
+                                        handleGoogleSignIn()
                                     } else {
                                         handleLogin()
                                     }
@@ -152,11 +149,12 @@ const Header = () => {
                                                 size="sm"
                                                 display="flex"
                                                 justifyContent="flex-start"
-                                                onClick={() => {
+                                                onClick={async () => {
                                                     if (isNextJSGoogleSignin) {
-                                                        signOut()
+                                                        await signOut()
+                                                        console.log("Sign out successful");
                                                     } else {
-                                                        handleSignOut()
+                                                        dispatch(setUserData({}))
                                                     }
                                                 }}
                                             >
