@@ -76,8 +76,8 @@ const ContentGenerator = () => {
                         <Input
                             id="content-generator-input"
                             textStyle="body"
-                            placeContent="Enter your prompt"
-                            placeholder='Enter your prompt'
+                            placeContent="Start typing... the AI magic happens next! 🪄"
+                            placeholder='Start typing... the AI magic happens next! 🪄'
                             size="lg"
                             variant="outline"
                             width={{ base: "100%", md: "80%" }}
