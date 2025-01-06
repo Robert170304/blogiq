@@ -13,15 +13,14 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -35,12 +34,16 @@ model Session {
 }
 
 model User {
-  id            String          @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
-  email         String?         @unique
-  emailVerified DateTime?
+  email         String?   @unique
   image         String?
+  firstName     String?
+  lastName      String?
+  verifiedEmail Boolean   @default(false)
+  googleId      String?
   accounts      Account[]
+  drafts        Draft[]
   sessions      Session[]
 }
 
@@ -49,5 +52,15 @@ model VerificationToken {
   token      String   @unique
   expires    DateTime
 
-  @@unique([identifier, token])
+  @@id([identifier, token])
+}
+
+model Draft {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  title     String
+  subtitle  String?
+  content   String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
 }

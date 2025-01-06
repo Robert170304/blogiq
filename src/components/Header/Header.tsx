@@ -3,73 +3,56 @@
 import { Box, Flex, Text, Button, } from '@chakra-ui/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { signOut, useSession } from 'next-auth/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaFeather, FaSignOutAlt } from 'react-icons/fa';
 import HeaderWrapper from './header.style'
 import { PopoverBody, PopoverContent, PopoverRoot, PopoverTrigger } from '../ui/popover';
-import { redirect } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { HiDocumentDuplicate } from 'react-icons/hi2';
-import { useGoogleLogin } from "@react-oauth/google";
-import axios from 'axios';
-import appActions from '@blogiq/store/app/actions';
-import { useDispatch, useSelector } from 'react-redux';
+import { TbHomeFilled } from 'react-icons/tb';
+import { useSelector } from 'react-redux';
 import type { RootState } from '@blogiq/store/store';
 import { isEmpty } from 'lodash';
-import { notify } from '@blogiq/app/utils/commonFunctions';
-import { handleGoogleSignIn } from '@blogiq/lib/auth/googleSignInServerAction';
+import { useAuthHelper } from '@blogiq/hooks/useAuthHelper';
 
-const { setUserData } = appActions;
-const isNextJSGoogleSignin = process.env.NEXT_PUBLIC_IS_NEXTJS_SIGNIN === "true"
 const Header = () => {
-    const { data: session, status } = useSession();
-    console.log("🚀 ~ isNextJSGoogleSignin:", isNextJSGoogleSignin, process.env.NEXT_PUBLIC_IS_NEXTJS_SIGNIN)
-    console.log("🚀 ~ Header ~ session:", session, status)
-    const dispatch = useDispatch()
+    const router = useRouter()
+    const pathname = usePathname();
+    const isSigninPage = pathname === '/signin';
     const [openProfileTooltip, setOpenProfileTooltip] = useState(false)
     const userData = useSelector((state: RootState) => state.app.userData);
     console.log("🚀 ~ Header ~ userData:", userData)
-    const isUserLoggedIn = isNextJSGoogleSignin ? !session : isEmpty(userData);
-    const handleLogin = useGoogleLogin({
-        onSuccess: tokenResponse => {
-            console.log("🚀 ~ handleLogin ~ credentialResponse.credential:", tokenResponse)
-            fetchUserProfile(tokenResponse?.access_token)
-        },
-    });
+    const isUserLoggedIn = isEmpty(userData);
+    const { handleLogout } = useAuthHelper();
+    const [isScrolled, setIsScrolled] = useState(false);
 
-    const fetchUserProfile = async (accessToken: string) => {
-        try {
-            const response = await axios.get('https://www.googleapis.com/oauth2/v2/userinfo', {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-            console.log("🚀 ~ fetchUserProfile ~ response.data:", response.data);
-            dispatch(setUserData(response.data))
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error("🚀 ~ fetchUserProfile ~ error:", error.message);
-                notify(error.message)
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 0) {
+                setIsScrolled(true);
             } else {
-                console.error("🚀 ~ fetchUserProfile ~ error:", error);
-                notify(error)
+                setIsScrolled(false);
             }
-        }
-    };
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    const onMenuItemClick = (path: string) => {
+        router.push(path);
+        setOpenProfileTooltip(false);
+    }
 
     return (
-        <HeaderWrapper>
+        <HeaderWrapper isScrolled={isScrolled}>
             <Box
                 as="header"
-                position="sticky"
-                top="0"
-                zIndex="1000"
                 bg="white"
+                maxWidth={{ base: "100%", sm: "90%", md: "90%", lg: "90%" }}
+                width="100%"
             >
                 <Flex
-                    pt={4}
-                    pb={4}
-                    px={{ base: 1, sm: 1, md: 6, lg: 6 }}
                     color="#030303"
                     alignItems="center"
                     justifyContent="space-between"
@@ -79,7 +62,7 @@ const Header = () => {
                         <FaFeather size={20} style={{ marginRight: "8px" }} />
                         <Link href="/" passHref>
                             <Text
-                                fontSize="2xl"
+                                fontSize="20px"
                                 textStyle="body"
                                 fontWeight="bold"
                                 _hover={{ textDecoration: 'underline', cursor: 'pointer' }}
@@ -94,7 +77,7 @@ const Header = () => {
                     <Flex alignItems="center">
                         {isUserLoggedIn ? (
                             <Button
-                                fontSize="13px"
+                                fontSize="15px"
                                 bg="#030303"
                                 color="white"
                                 pr={7}
@@ -103,74 +86,76 @@ const Header = () => {
                                 size="sm"
                                 borderRadius="30px"
                                 onClick={() => {
-                                    if (isNextJSGoogleSignin) {
-                                        handleGoogleSignIn()
-                                    } else {
-                                        handleLogin()
-                                    }
+                                    router.push(isSigninPage ? '/' : '/signin');
                                 }}
+                                className='hover-color-primary'
                             >
-                                <Image
-                                    alt='google logo'
-                                    src="/Logo-google-icon.png"
-                                    width={20}
-                                    height={20}
-                                />
-                                Sign In With Google
+                                {isSigninPage ? 'Go to Home' : 'Sign In'}
                             </Button>
                         ) : (
                             <PopoverRoot
-                                size="sm"
+                                size="xs"
                                 positioning={{ placement: "bottom" }}
                                 open={openProfileTooltip}
                                 onOpenChange={(e) => setOpenProfileTooltip(e.open)}>
                                 <PopoverTrigger>
-                                    <Flex alignItems="center" gap="10px" >
-                                        <Text fontWeight={500}>{isNextJSGoogleSignin ? session?.user?.name : userData?.name}</Text>
-
+                                    <Flex alignItems="center" gap="7px" >
+                                        <Text fontSize="15px" fontWeight={500}>{userData?.fullName}</Text>
                                         <div className='profile-img-container'>
                                             <Image
-                                                src={isNextJSGoogleSignin ? session?.user?.image ?? 'https://via.placeholder.com/300x200' : userData?.picture ?? 'https://via.placeholder.com/300x200'}
-                                                alt={isNextJSGoogleSignin ? session?.user?.name || 'User Image' : userData?.name || 'User Image'}
+                                                src={userData?.image ?? `https://robohash.org/${userData.firstName}`}
+                                                alt={userData?.fullName ?? 'User Image'}
                                                 width={30}
                                                 height={30}
-                                                blurDataURL='https://via.placeholder.com/300x200'
-                                                className="cardImage"
+                                                blurDataURL={`https://robohash.org/${userData.firstName}`}
                                             />
                                         </div>
                                     </Flex>
                                 </PopoverTrigger>
-                                <PopoverContent>
+                                <PopoverContent css={{ "--popover-bg": "#202123", maxWidth: "200px" }}>
                                     <PopoverBody>
                                         <Flex alignItems="center" flexDirection="column" justifyContent="flex-start" gap="10px" >
                                             <Button
+                                                padding="0 15px"
+                                                width="100%"
+                                                color="#fff"
+                                                display="flex"
+                                                justifyContent="flex-start"
+                                                size="sm"
+                                                onClick={() => onMenuItemClick('/')}
+                                                _hover={{ bg: "#111111" }}
+                                            >
+                                                <TbHomeFilled />
+                                                Home
+                                            </Button>
+                                            <Button
+                                                padding="0 15px"
+                                                width="100%"
+                                                color="#fff"
+                                                display="flex"
+                                                justifyContent="flex-start"
+                                                size="sm"
+                                                onClick={() => onMenuItemClick('/drafts')}
+                                                _hover={{ bg: "#111111" }}
+                                            >
+                                                <HiDocumentDuplicate />
+                                                Drafts
+                                            </Button>
+                                            <Button
+                                                padding="0 15px"
                                                 width="100%"
                                                 color="#fff"
                                                 size="sm"
                                                 display="flex"
                                                 justifyContent="flex-start"
                                                 onClick={async () => {
-                                                    if (isNextJSGoogleSignin) {
-                                                        await signOut()
-                                                        console.log("Sign out successful");
-                                                    } else {
-                                                        dispatch(setUserData({}))
-                                                    }
+                                                    setOpenProfileTooltip(false)
+                                                    await handleLogout()
                                                 }}
+                                                _hover={{ bg: "#111111" }}
                                             >
                                                 <FaSignOutAlt />
                                                 Sign out
-                                            </Button>
-                                            <Button
-                                                width="100%"
-                                                color="#fff"
-                                                display="flex"
-                                                justifyContent="flex-start"
-                                                size="sm"
-                                                onClick={() => redirect(`/drafts`)}
-                                            >
-                                                <HiDocumentDuplicate />
-                                                Drafts
                                             </Button>
                                         </Flex>
                                     </PopoverBody>

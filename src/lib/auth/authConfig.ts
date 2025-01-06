@@ -1,6 +1,4 @@
 import NextAuth from "next-auth";
-// import PostgresAdapter from "@auth/pg-adapter"
-// import { pool } from "../postgres";
 import Google from "next-auth/providers/google"
 import Nodemailer from "next-auth/providers/nodemailer"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"

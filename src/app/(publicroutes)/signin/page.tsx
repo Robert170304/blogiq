@@ -1,17 +1,12 @@
 import React from 'react'
 import SignInPage from './signIn'
-import { checkIfAuthenticated } from '@blogiq/lib/auth/checkIfAuthenticated'
-import { redirect } from 'next/navigation';
+import { Flex } from '@chakra-ui/react';
 
-const SignIn = async () => {
-    const isAuthenticated = await checkIfAuthenticated();
-    console.log("🚀 ~ SignIn ~ isAuthenticated:", isAuthenticated)
-
-    if (isAuthenticated) {
-        redirect("/");
-    }
+const SignIn = () => {
     return (
-        <SignInPage />
+        <Flex as="div" justify="center" width="100%" minHeight="500px">
+            <SignInPage />
+        </Flex>
     )
 }
 

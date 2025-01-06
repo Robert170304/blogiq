@@ -1,38 +1,45 @@
 import { Text } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import TypingTextWrapper from './TypingText.Style';
 
-const TypingText = ({ text, speed = 50, onTextUpdate }: {
+const TypingText = memo(({ text, speed = 15, onTextUpdate, shouldType, setShouldType }: {
     text: string;
     speed?: number;
+    shouldType: boolean;
     onTextUpdate?: (currentText: string) => void;
+    setShouldType: (val: boolean) => void;
 }) => {
     const [displayedText, setDisplayedText] = useState('');
     const [isCursorVisible, setIsCursorVisible] = useState(true);
+    const shouldTypeRef = useRef(shouldType); // Ref to track shouldType
+    console.log("🚀 ~ shouldType: init", shouldType)
+
+    useEffect(() => {
+        shouldTypeRef.current = shouldType; // Update ref on state change
+    }, [shouldType]);
 
     useEffect(() => {
         let index = 0;
-        let timer: NodeJS.Timeout; // Store the timer reference
+        setDisplayedText(text[0] || ''); // Set the first character
+        setIsCursorVisible(true); // Reset cursor visibility
+
         const typeLetter = () => {
-            if (index < text.length) {
-                // Only update state if text[index] is valid
-                setDisplayedText((prev) => prev + (text[index] || ''));
+            console.log("🚀 ~ typeLetter ~ shouldType:", shouldType)
+            if (index < text.length && shouldTypeRef.current) {
+                setDisplayedText((prev) => prev + (text[index] || ""));
                 onTextUpdate?.(text.slice(0, index + 1));
                 index += 1;
-                timer = setTimeout(typeLetter, speed); // Recursive typing
+                setTimeout(typeLetter, speed);
             } else {
                 setIsCursorVisible(false); // Hide cursor after finishing
+                setShouldType(false);
             }
         };
 
-        setDisplayedText(''); // Reset displayed text when `text` changes
-        setIsCursorVisible(true); // Reset cursor visibility
-        typeLetter();
+        const timer = setTimeout(typeLetter, speed);
+        return () => clearTimeout(timer);
+    }, [text, speed, onTextUpdate, setShouldType, shouldType]);
 
-        return () => {
-            clearTimeout(timer);
-        };
-    }, [text, speed, onTextUpdate]);
 
     return (
         <TypingTextWrapper>
@@ -52,6 +59,8 @@ const TypingText = ({ text, speed = 50, onTextUpdate }: {
             </Text>
         </TypingTextWrapper>
     );
-};
+});
+
+TypingText.displayName = 'TypingText';
 
 export default TypingText;

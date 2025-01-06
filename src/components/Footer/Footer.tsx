@@ -10,7 +10,6 @@ const Footer = () => {
             height="50px"
             display="flex"
             alignItems="center"
-            mt="20px"
         >
             <div>&copy; BlogIQ. All rights reserved.</div>
         </Container>

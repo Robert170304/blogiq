@@ -7,9 +7,8 @@ const EmptyDraftsScreen = () => {
 
     const router = useRouter();
 
-    const handleRedirect = () => {
-        // Navigate to the homepage
-        router.push("/")
+    const handleRedirect = async () => {
+        router.push('/?focusInput=true');
     };
 
 
@@ -18,7 +17,6 @@ const EmptyDraftsScreen = () => {
             align="center"
             justify="center"
             bgGradient="linear(to-b, orange.100, pink.50)"
-            h="100%"
             p={8}
             borderRadius="lg"
         >

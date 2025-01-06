@@ -6,7 +6,7 @@ export const handleSignOut = async () => {
     try {
         await signOut()
     } catch (error) {
-        console.error("Error during sign out:", error);
-        throw error;
+        console.log("Error during sign out:", error);
+        // throw error;
     }
 }

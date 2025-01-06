@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 
 const BlogListWrapper = styled.div({
+  width: "100%",
   "& .chakra-tabs__trigger[data-selected]": {
     color: "#030303",
     fontWeight: "bold",

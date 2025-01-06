@@ -28,7 +28,7 @@ const HeroSection = () => {
                     Unleash the Power of AI to Create, Curate, and Inspire.
                 </Text>
                 <Text fontSize="md" fontWeight="medium" color="#eeeeee" mt="4">
-                    BlogIQ combines the latest in AI technology to help you generate unique and engaging content effortlessly. Whether you&apos;re looking for a fresh blog idea or need assistance drafting your next post, our AI is here to help.
+                    BlogIQ combines the latest in AI technology to help you generate unique and engaging content effortlessly. Whether you&apos;re looking for a fresh blog idea or need assistance drafting your next post, BlogIQ is here to help.
                 </Text>
             </Box>
         </Flex>

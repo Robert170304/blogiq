@@ -10,6 +10,6 @@ export const handleEmailSignIn = async (email: string) => {
         });
     } catch (error) {
         console.log("🚀 ~ handleEmailSignIn ~ error:", error)
-        throw error;
+        // throw error;
     }
 }

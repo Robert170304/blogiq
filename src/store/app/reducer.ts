@@ -3,7 +3,8 @@ import actions from "./actions";
 
 const initialState = {
   savedDrafts: [],
-  userData: {}
+  userData: {},
+  signInUsing: "",
 };
 
 const appReducer = (state = initialState, action) => {
@@ -19,6 +20,7 @@ const appReducer = (state = initialState, action) => {
       return {
         ...state,
         userData: action.data,
+        signInUsing: action.signInType,
       };
 
     default:
