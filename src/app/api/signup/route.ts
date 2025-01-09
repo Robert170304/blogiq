@@ -79,36 +79,9 @@ export async function POST(req: Request) {
             from: 'BlogIQ <thefastrobz@gmail.com>',
             to: email,
             subject: 'Verify your email - BlogIQ',
-            html: `<p>Click the link to verify your email for successfully registering to BlogIQ: <a href="${link}">Verify Email</a></p>`,
+            html: `<p>Welcome to BlogIQ! Click the link to verify your email and complete your registration successfully: <a href="${link}">Verify Email</a></p>`,
         });
 
-        // // Save session in database
-        // const session = await createSession(newUser.id);
-
-        // // Set a session cookie
-        // const response = NextResponse.json({
-        //     message: "Sign up successful",
-        //     user: {
-        //         id: newUser.id,
-        //         email: newUser.email,
-        //         name: newUser.name,
-        //         firstName: newUser.firstName,
-        //         lastName: newUser.lastName,
-        //         verifiedEmail: newUser.verifiedEmail, // Default false
-        //         image: newUser.image,
-        //     },
-        //     token: session.sessionToken,
-        // }, { status: 200 });
-
-        // response.cookies.set("sessionToken", session.sessionToken, {
-        //     httpOnly: true,
-        //     secure: process.env.NODE_ENV === "production",
-        //     path: "/",
-        //     maxAge: 60 * 60 * 24 * 7, // 1 week
-        // });
-
-        // Return token to the client
-        // return response;
         return NextResponse.json({ message: 'User registered. Check your email for verification link.', success: true }, { status: 200 });
 
     } catch (err) {

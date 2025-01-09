@@ -9,11 +9,13 @@ import { BsPauseCircle } from 'react-icons/bs'
 import { notify } from '@blogiq/app/utils/commonFunctions';
 import ContentGeneratorWrapper from './ContentGenerator.Style';
 import { useSearchParams } from 'next/navigation';
+import { FiZap } from 'react-icons/fi'
+import AnimatedFiZap from './AnimatedFiZap';
 
 const ContentGenerator = () => {
     const searchParams = useSearchParams();
     const [prompt, setPrompt] = useState("")
-    const [generatedText, setGeneratedText] = useState("")
+    const [generatedText, setGeneratedText] = useState(``)
     const [isGeneratingText, setIsGeneratingText] = useState(false)
     const [isTypingText, setIsTypingText] = useState(false)
     const [typed, setTyped] = useState<Typed | undefined>()
@@ -32,7 +34,6 @@ const ContentGenerator = () => {
         })
         const data = await res.json()
         if (res.ok) {
-            setGeneratedText("")
             setTimeout(() => {
                 setGeneratedText(data.text)
             }, 1000)
@@ -83,7 +84,8 @@ const ContentGenerator = () => {
                             width={{ base: "100%", md: "80%" }}
                             borderRadius="40px 0 0 40px"
                             border="2px solid #e5e7eb"
-                            padding="0 40px 0 10px"
+                            padding="0 10px 0 10px"
+                            fontSize="14px"
                             onChange={(e) => setPrompt(e.target.value)}
                             onKeyDown={(e) => {
                                 if (e.key == "Enter") {
@@ -101,11 +103,13 @@ const ContentGenerator = () => {
                         />
                         <Button
                             onClick={() => {
-                                if (isTypingText) {
-                                    typed?.stop()
-                                    setIsTypingText(false)
-                                } else {
-                                    generateContent()
+                                if (!isGeneratingText) {
+                                    if (isTypingText) {
+                                        typed?.stop();
+                                        setIsTypingText(false);
+                                    } else {
+                                        generateContent();
+                                    }
                                 }
                             }}
                             textStyle="body"
@@ -117,12 +121,19 @@ const ContentGenerator = () => {
                             colorScheme="black"
                             size="lg"
                             fontWeight="bold"
-                            loading={isGeneratingText}
-                            loadingText="Generating..."
-                            className='hover-color-primary'
+                            className="hover-color-primary"
                         >
-                            {isTypingText ? <BsPauseCircle /> : "Generate"}
+                            {(() => {
+                                if (isTypingText) {
+                                    return <BsPauseCircle />;
+                                } else if (isGeneratingText) {
+                                    return <AnimatedFiZap />;
+                                } else {
+                                    return <FiZap />;
+                                }
+                            })()}
                         </Button>
+
                     </Box>
                 </Flex>
 
@@ -130,7 +141,7 @@ const ContentGenerator = () => {
                     ref={boxRef}
                     padding="10px 10px"
                     margin="15px 0 0 0"
-                    borderRadius="15px"
+                    borderRadius="15px 15px 0 0"
                     background="#181818"
                     color="white"
                     width="100%"

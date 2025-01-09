@@ -1,5 +1,5 @@
 "use client"
-import { Flex, For, HStack, IconButton, VStack } from '@chakra-ui/react'
+import { Box, Flex, For, HStack, IconButton, Text, VStack } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { HiSpeakerWave } from 'react-icons/hi2'
 import { Tooltip } from '../ui/tooltip'
@@ -24,7 +24,7 @@ const GeneratedContentToolbar: React.FC<GeneratedContentToolbarProps> = ({ gener
         {
             id: 1,
             label: ttsStatus === "playing" ? "Pause" : "Read Aloud",
-            icon: ttsStatus === "playing" ? <FaPause /> : <HiSpeakerWave />,
+            icon: ttsStatus === "playing" ? <FaPause color='white' /> : <HiSpeakerWave color='white' />,
             action: () => {
                 if (ttsStatus === "playing") {
                     stopSpeech();
@@ -45,21 +45,23 @@ const GeneratedContentToolbar: React.FC<GeneratedContentToolbarProps> = ({ gener
         {
             id: 2,
             label: 'Copy',
-            icon: <IoCopy />,
+            icon: <IoCopy color='white' />,
             action: () => copyToClipBoard(generatedContent),
             active: true,
         },
         {
             id: 3,
             label: 'Save as draft',
-            icon: <BsFillSave2Fill />,
+            icon: <BsFillSave2Fill color='white' />,
             action: () => setOpenDraftModal(true),
             active: !isEmpty(userData),
         }
     ]
     return (
-        <Flex>
-            <HStack wrap="wrap" gap="0">
+        <Flex position="relative" top="-2px" borderRadius="0 0 15px 15px" background="#181818" justifyContent="space-between" alignItems="center">
+            <HStack wrap="wrap" gap="0" background="#202123"
+                borderRadius="10px"
+                margin="10px">
                 <For each={toolbarOptions}>
                     {(option) => {
                         if (option.active) {
@@ -75,7 +77,7 @@ const GeneratedContentToolbar: React.FC<GeneratedContentToolbarProps> = ({ gener
                                             aria-label={option.label}
                                             key={option.id}
                                             variant="ghost"
-                                            size="md"
+                                            size="sm"
                                             onClick={() => option.action()}
                                         >
                                             {option.icon}
@@ -86,7 +88,13 @@ const GeneratedContentToolbar: React.FC<GeneratedContentToolbarProps> = ({ gener
                         }
                     }}
                 </For>
+
             </HStack>
+            <Box textAlign="center" margin="10px">
+                <Text fontSize="10px" color="gray.500">
+                    Powered by GPT-4o
+                </Text>
+            </Box>
             <SaveDraftModal
                 generatedContent={generatedContent}
                 isOpen={openDraftModal}

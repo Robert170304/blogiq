@@ -19,10 +19,11 @@ import { apiHelper } from '@blogiq/helpers/apiHelper'
 const { setUserData } = appActions;
 const SignInPage = () => {
     const dispatch = useDispatch()
-    const { showLoader, hideLoader, isLoading } = useScreenLoader();
+    const { showLoader, hideLoader } = useScreenLoader();
     const router = useRouter()
     const { register, handleSubmit, formState: { errors } } = useForm()
     const [randomLoadingText, setRandomLoadingText] = useState("");
+    const [isSigningIn, setIsSigningIn] = useState(false);
 
     useEffect(() => {
         const randomIndex = Math.floor(Math.random() * signInLoaderTexts.length);
@@ -32,6 +33,7 @@ const SignInPage = () => {
 
     async function handleEmailSignIn(data) {
         showLoader(randomLoadingText);
+        setIsSigningIn(true)
         try {
             const result = await apiHelper('/api/signin', 'POST', data, false) as SignInResponse;
 
@@ -55,18 +57,21 @@ const SignInPage = () => {
 
                 notify("Signed in successfully", { type: "success" });
                 hideLoader();
+                setIsSigningIn(false)
 
                 // Redirect to a protected page
                 router.replace("/");
             } else {
                 console.error('Sign-in failed:', result.message);
-                notify(result.message || "Sign-in failed", { type: "error" });
+                notify(result.message || "Sign-in failed", { type: "error", duration: 6000 },);
                 hideLoader();
+                setIsSigningIn(false)
             }
         } catch (error) {
             console.log("🚀 ~ handleEmailSignIn ~ error:", error);
             notify("Something went wrong, please try again", { type: "error" });
             hideLoader();
+            setIsSigningIn(false)
         }
     }
 
@@ -215,7 +220,7 @@ const SignInPage = () => {
                     size="lg"
                     fontWeight="bold"
                     width={{ base: "100%", md: "80%" }}
-                    loading={isLoading}
+                    loading={isSigningIn}
                     loadingText="Signing In"
                     className='hover-color-primary'
                 >

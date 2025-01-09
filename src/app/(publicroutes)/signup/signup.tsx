@@ -39,7 +39,7 @@ const SignUpPage = () => {
             console.log("🚀 ~ signUpUser ~ result:", result)
 
             if (result?.success) {
-                notify(result.message ?? "Successfully signed in.", { type: "success" });
+                notify(result.message ?? "Successfully signed in.", { type: "success", duration: 6000 });
                 hideLoader()
             } else {
                 notify(result.message, { type: "error" });
