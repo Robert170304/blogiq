@@ -5,12 +5,13 @@ import { HiSpeakerWave } from 'react-icons/hi2'
 import { Tooltip } from '../ui/tooltip'
 import { IoCopy, } from 'react-icons/io5'
 import { BsFillSave2Fill } from 'react-icons/bs'
-import { copyToClipBoard, stopSpeech, startSpeech } from '../../app/utils/commonFunctions'
+import { copyToClipBoard } from '../../app/utils/commonFunctions'
 import { FaPause } from 'react-icons/fa'
 import { SaveDraftModal } from '../SaveDraftModal/SaveDraftModal'
 import { useSelector } from 'react-redux'
 import type { RootState } from '@blogiq/store/store'
 import { isEmpty } from 'lodash'
+import useTextToSpeech from '@blogiq/hooks/useTextToSpeech'
 
 interface GeneratedContentToolbarProps {
     generatedContent: string;
@@ -20,26 +21,13 @@ const GeneratedContentToolbar: React.FC<GeneratedContentToolbarProps> = ({ gener
     const [openDraftModal, setOpenDraftModal] = useState(false);
     const [ttsStatus, setTTSStatus] = useState("idle");
     const userData = useSelector((state: RootState) => state.app.userData);
+    const { speak } = useTextToSpeech();
     const toolbarOptions = [
         {
             id: 1,
             label: ttsStatus === "playing" ? "Pause" : "Read Aloud",
             icon: ttsStatus === "playing" ? <FaPause color='white' /> : <HiSpeakerWave color='white' />,
-            action: () => {
-                if (ttsStatus === "playing") {
-                    stopSpeech();
-                    setTTSStatus("idle");
-                } else {
-                    startSpeech(generatedContent);
-                    const speechResult = startSpeech(generatedContent);
-                    if (speechResult) {
-                        const { utterance } = speechResult;
-                        utterance.onend = () => setTTSStatus("idle")
-                        utterance.onerror = () => setTTSStatus("idle")
-                        setTTSStatus("playing");
-                    }
-                }
-            },
+            action: handleSpeechAction,
             active: true,
         },
         {
@@ -57,6 +45,24 @@ const GeneratedContentToolbar: React.FC<GeneratedContentToolbarProps> = ({ gener
             active: !isEmpty(userData),
         }
     ]
+
+    function handleSpeechAction() {
+        if (ttsStatus === "playing") {
+            window.responsiveVoice.pause();
+            setTTSStatus("paused");
+        } else if (ttsStatus === "paused") {
+            window.responsiveVoice.resume();
+            setTTSStatus("playing");
+        } else {
+            speak(generatedContent, {
+                voice: "UK English Male",
+                rate: 1.1,
+                onstart: () => setTTSStatus("playing"),
+                onend: () => setTTSStatus("idle"),
+            });
+        }
+    };
+
     return (
         <Flex position="relative" top="-2px" borderRadius="0 0 15px 15px" background="#181818" justifyContent="space-between" alignItems="center">
             <HStack wrap="wrap" gap="0" background="#202123"

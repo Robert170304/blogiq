@@ -97,4 +97,18 @@ declare global {
         isVerified?: boolean;
     }
 
+    interface Window {
+        responsiveVoice: {
+            resume(): unknown;
+            pause(): unknown;
+            speak: (text: string, voice: string, options: {
+                pitch: number,
+                rate: number,
+                volume: number,
+                onstart: () => void,
+                onend: () => void
+            }) => void;
+        };
+    }
+
 }

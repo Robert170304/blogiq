@@ -8,6 +8,7 @@ import { Toaster } from 'react-hot-toast';
 import Header from "@blogiq/components/Header/Header";
 import Footer from "@blogiq/components/Footer/Footer";
 import SessionWatcher from "@blogiq/components/SessionWatcher/SessionWatcher";
+import Script from "next/script";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -58,6 +59,7 @@ export default async function RootLayout({ children, params }: Readonly<LayoutPr
             <Footer />
           </Flex>
         </Providers>
+        <Script src="https://code.responsivevoice.org/responsivevoice.js?key=Uvok8Skn" strategy="beforeInteractive" />
       </body>
     </html>
   );
