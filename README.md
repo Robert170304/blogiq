@@ -19,11 +19,11 @@ BlogIQ is an innovative, AI-driven blogging platform designed to fuel creativity
 
 ## ✨ Features
 
-- **🤖 AI-Powered Content Generation**: Create high-quality 📝 effortlessly using OpenAI's GPT-4o model.
-- **📝 Draft Management**: Save and manage drafts for unfinished 📰 posts.
-- **📋 One-Click Copy**: Easily 📑 content to the clipboard.
+- **🤖 AI-Powered Content Generation**: Create high-quality content effortlessly using OpenAI's GPT-4o model.
+- **📝 Draft Management**: Save and manage drafts for unfinished posts.
+- **📋 One-Click Copy**: Easily copy content to the clipboard.
 - **🌙 Minimal yet calm UI**: Enjoy a sleek, modern theme.
-- **🛠️ Dynamic Toolbar**: Access interactive controls for 📋 copying, and 📝 saving drafts.
+- **🛠️ Dynamic Toolbar**: Access interactive controls for content copying, and saving drafts.
 
 ---
 
@@ -107,7 +107,7 @@ We ❤️ contributions! Follow these steps:
 
 ## 📜 License
 
-This 🏗️ is under the [MIT License](LICENSE).
+This project is under the [MIT License](LICENSE).
 
 ---
 
@@ -119,4 +119,4 @@ For questions or feedback, feel free to reach out::
 - **📧 Email**: [macwanrobert04@gmail.com](mailto:macwanrobert04@gmail.com)
 - **🐙 GitHub**: [robert170304](https://github.com/robert170304)
 
-Bring your 📝 to the next level with **BlogIQ**! 🏆
+Bring your blogging to the next level with **BlogIQ**! 🏆
