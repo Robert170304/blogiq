@@ -4,7 +4,6 @@ import OpenAI from "openai";
 
 export async function POST(req) {
   const { prompt } = await req.json();
-  console.log("🚀 ~ POST ~ process.env.OPENAI_API_KEY:", process.env.OPENAI_API_KEY)
 
   try {
 
@@ -24,7 +23,6 @@ export async function POST(req) {
       top_p: 1
     });
 
-    console.log("response.choices[0].message.content", response.choices[0].message.content);
     return NextResponse.json({ text: response.choices[0].message.content });
   } catch (error) {
     console.log("🚀 ~ POST ~ error:", error)

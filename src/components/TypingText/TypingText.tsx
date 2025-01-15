@@ -12,7 +12,6 @@ const TypingText = memo(({ text, speed = 15, onTextUpdate, shouldType, setShould
     const [displayedText, setDisplayedText] = useState('');
     const [isCursorVisible, setIsCursorVisible] = useState(true);
     const shouldTypeRef = useRef(shouldType); // Ref to track shouldType
-    console.log("🚀 ~ shouldType: init", shouldType)
 
     useEffect(() => {
         shouldTypeRef.current = shouldType; // Update ref on state change
@@ -24,7 +23,6 @@ const TypingText = memo(({ text, speed = 15, onTextUpdate, shouldType, setShould
         setIsCursorVisible(true); // Reset cursor visibility
 
         const typeLetter = () => {
-            console.log("🚀 ~ typeLetter ~ shouldType:", shouldType)
             if (index < text.length && shouldTypeRef.current) {
                 setDisplayedText((prev) => prev + (text[index] || ""));
                 onTextUpdate?.(text.slice(0, index + 1));

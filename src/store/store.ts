@@ -14,7 +14,7 @@ const persistConfig = {
     key: 'nextjs',
     whitelist: [
         'app',
-    ], // only counter will be persisted, add other reducers if needed
+    ], // only app will be persisted, add other reducers if needed
     storage, // if needed, use a safer storage
 };
 

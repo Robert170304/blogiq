@@ -5,7 +5,6 @@ import { jwtVerify } from "jose"; // Import jose library
 export default async function middleware(req: NextRequest) {
     const url = req.nextUrl.pathname;
     const sessionToken = req.cookies.get("sessionToken")?.value;
-    console.log("🚀 ~ middleware ~ sessionToken:", sessionToken, url)
     const signInUrl = new URL("/signin", req.nextUrl.origin); // Absolute URL
     const publicRoutes = ["/", "/signin", "/signup"];
     const protectedRoutes = ["/drafts", "/api/saveGeneratedContent", "/api/getSavedDrafts"];
@@ -29,10 +28,8 @@ export default async function middleware(req: NextRequest) {
             // Replace jwt.verify with jose's jwtVerify
             const secret = new TextEncoder().encode(process.env.JWT_SECRET); // Convert secret to Uint8Array
             const { payload } = await jwtVerify(sessionToken, secret);
-            console.log("🚀 ~ middleware ~ decoded:", payload)
             // Check if token has expired
             const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
-            console.log("🚀 ~ middleware ~ currentTime > payload.exp:", currentTime, payload.exp)
             if (payload.exp && currentTime > payload.exp) {
                 // Invalid token: redirect to sign-in
                 const response = NextResponse.redirect(signInUrl);

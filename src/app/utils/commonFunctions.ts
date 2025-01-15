@@ -15,7 +15,6 @@ export const notify = (text, extraParams) => {
 };
 
 export const copyToClipBoard = async (text) => {
-  console.log("🚀 ~ copyToClipBoard ~ text:", text);
   try {
     await navigator.clipboard.writeText(text);
     notify("Copied to clipboard.", { type: "success" });
@@ -106,7 +105,6 @@ export const handleLogout = async () => {
 };
 
 export const generateVerificationToken = async (email: string) => {
-  console.log("🚀 ~ generateVerificationToken ~ email:", email)
   const token = crypto.randomBytes(32).toString('hex');
   const expires = addMinutes(new Date(), 30);  // Token expires in 30 minutes
 

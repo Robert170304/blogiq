@@ -59,7 +59,17 @@ BlogIQ is an innovative, AI-driven blogging platform designed to fuel creativity
 3. Create a `.env.local` for environment variables:
    ```env
    OPENAI_API_KEY=your_openai_api_key
+   NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_client_id
+   AUTH_SECRET=genrate_random_base64_character
    NEXTAUTH_URL=http://localhost:3000
+   DATABASE_URL=your_database_url
+   JWT_SECRET=_your_jwt_secret_access_token
+   GITHUB_TOKEN=your_github_access_token
+   BREVO_EMAIL_FROM=your_brevo_email
+   BREVO_SERVER_USER=your_brevo_server_user
+   BREVO_SERVER_PASS=your_brevo_server_password
+   BREVO_API_KEY=your_brevo_api_key
+   BREVO_SERVER_HOST=your_brevo_server_host_name
    ```
 4. Start the development server:
    ```bash

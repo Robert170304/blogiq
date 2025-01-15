@@ -8,7 +8,6 @@ export default function SessionWatcher() {
     useEffect(() => {
         const checkLogout = async () => {
             const cookies = document.cookie.split(";").map((c) => c.trim());
-            console.log("🚀 ~ checkLogout ~ cookies:", cookies, document.cookie)
             const loggedOut = cookies.find((cookie) => cookie.startsWith("loggedOut="));
 
             if (loggedOut) {

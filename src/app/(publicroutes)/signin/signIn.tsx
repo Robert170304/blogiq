@@ -78,7 +78,6 @@ const SignInPage = () => {
 
     const handleGoogleLogin = useGoogleLogin({
         onSuccess: (tokenResponse) => {
-            console.log("🚀 ~ handleLogin ~ credentialResponse.credential:", tokenResponse)
             fetchUserGoogleProfile(tokenResponse?.access_token)
         },
     });

@@ -36,8 +36,6 @@ const SignUpPage = () => {
 
             const result = await apiHelper('/api/signup', 'POST', data, false) as SignUpResponse;
 
-            console.log("🚀 ~ signUpUser ~ result:", result)
-
             if (result?.success) {
                 notify(result.message ?? "Successfully signed in.", { type: "success", duration: 6000 });
                 hideLoader()
@@ -54,7 +52,6 @@ const SignUpPage = () => {
 
     const handleGoogleSignUp = useGoogleLogin({
         onSuccess: (tokenResponse) => {
-            console.log("🚀 ~ handleLogin ~ credentialResponse.credential:", tokenResponse)
             fetchUserGoogleProfile(tokenResponse?.access_token)
         },
     });

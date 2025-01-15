@@ -54,7 +54,6 @@ const ContentGenerator = () => {
 
     useEffect(() => {
         const focusInput = searchParams.get('focusInput');  // Check if focusInput=true
-        console.log("🚀 ~ useEffect ~ focusInput:", focusInput)
         if (focusInput === 'true') {
             const contentInput = document.getElementById('content-generator-input');
             if (contentInput) {

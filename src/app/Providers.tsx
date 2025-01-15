@@ -13,7 +13,7 @@ import FullScreenLoader from "@blogiq/components/LoaderFullScreen/LoaderFullScre
 
 interface ProvidersProps {
     children: React.ReactNode;
-    session: Session | null; // Replace with the correct session type if available
+    session: Session | null;
 }
 
 export default function Providers({ children, session }: Readonly<ProvidersProps>) {

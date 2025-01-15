@@ -69,8 +69,6 @@ export async function POST(req: Request) {
             },
         });
 
-        console.log(`${cleanupResult.count} expired sessions cleaned up.`);
-
         // Clear session cookie
         const response = NextResponse.json({
             message: 'Logout successful',

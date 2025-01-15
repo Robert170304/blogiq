@@ -14,7 +14,6 @@ export async function POST(req: Request) {
             where: { email },
             include: { accounts: true }
         });
-        console.log("🚀 ~ POST ~ existingUser:", existingUser)
 
         if (existingUser) {
             // Check if the user has already signed up with Google or any other provider
@@ -32,7 +31,7 @@ export async function POST(req: Request) {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create the user in the database
-        const newUser = await prisma.user.create({
+        await prisma.user.create({
             data: {
                 firstName,
                 lastName,
@@ -50,7 +49,6 @@ export async function POST(req: Request) {
                 },
             },
         });
-        console.log("🚀 ~ POST ~ newUser:", newUser)
 
         // Generate a verification token
         const verificationToken = crypto.randomBytes(32).toString('hex');
@@ -67,16 +65,16 @@ export async function POST(req: Request) {
         // send verification email
         const link = `${process.env.NEXTAUTH_URL}/verify-email?token=${verificationToken}&identifier=${encodeURIComponent(email)}`;
         const transporter = nodemailer.createTransport({
-            host: "smtp-relay.brevo.com",
+            host: process.env.BREVO_SERVER_HOST,
             port: 587,
             auth: {
-                user: process.env.BREVO_USER,
-                pass: process.env.BREVO_PASS,
+                user: process.env.BREVO_SERVER_USER,
+                pass: process.env.BREVO_SERVER_PASS,
             },
         });
 
         await transporter.sendMail({
-            from: 'BlogIQ <thefastrobz@gmail.com>',
+            from: `BlogIQ <${process.env.BREVO_EMAIL_FROM}>`,
             to: email,
             subject: 'Verify your email - BlogIQ',
             html: `<p>Welcome to BlogIQ! Click the link to verify your email and complete your registration successfully: <a href="${link}">Verify Email</a></p>`,

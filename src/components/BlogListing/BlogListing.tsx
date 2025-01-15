@@ -34,7 +34,6 @@ const BlogListing: React.FC = () => {
         setIsFetchingDrafts(true);
         try {
             const res = await apiHelper('/api/getSavedDrafts', 'GET', {}, true) as GetSavedDraftsResponse;
-            console.log("🚀 ~ getSavedDrafts ~ res:", res)
             if (res.drafts) {
                 setAllDrafts(res.drafts);
                 setDisplayedDrafts(res.drafts);
@@ -56,7 +55,6 @@ const BlogListing: React.FC = () => {
     }, [])
 
     const handleSearch = (searchVal: string) => {
-        console.log("🚀 ~ handleSearch ~ searchVal:", searchVal)
         setSearchTerm(searchVal);
         if (!searchVal) {
             getSavedDrafts();
@@ -66,7 +64,6 @@ const BlogListing: React.FC = () => {
                 draft.subtitle.toLowerCase().includes(searchVal.toLowerCase()) ||
                 draft.content.toLowerCase().includes(searchVal.toLowerCase())
             );
-            console.log("🚀 ~ handleSearch ~ filteredDrafts:", filteredDrafts)
             setDisplayedDrafts(filteredDrafts);
         }
     };

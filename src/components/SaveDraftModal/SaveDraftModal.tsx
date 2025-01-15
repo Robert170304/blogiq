@@ -33,8 +33,6 @@ export const SaveDraftModal: React.FC<SaveDraftModalProps> = ({ generatedContent
     const [draftFields, setDraftFields] = useState({ draftName: "", subtitle: "" })
     const [saveDraftLoader, setSaveDraftLoader] = useState(false)
     const ref = useRef<HTMLInputElement>(null)
-    const savedDrafts = useSelector((state: RootState) => state.app.savedDrafts);
-    console.log("🚀 ~ savedDrafts:", savedDrafts)
     const { width } = useWindowSize()
 
     const saveDraft = async () => {
@@ -48,7 +46,6 @@ export const SaveDraftModal: React.FC<SaveDraftModalProps> = ({ generatedContent
                     content: generatedContent,
                 }
             }, true) as SaveDraftResponse;
-            console.log("🚀 ~ saveDraft ~ response:", response)
 
             if (!response?.draft) {
                 setSaveDraftLoader(false);

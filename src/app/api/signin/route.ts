@@ -58,16 +58,16 @@ export async function POST(req: Request) {
             // send verification email
             const link = `${process.env.NEXTAUTH_URL}/verify-email?token=${verificationToken}&identifier=${encodeURIComponent(email)}`;
             const transporter = nodemailer.createTransport({
-                host: "smtp-relay.brevo.com",
+                host: process.env.BREVO_SERVER_HOST,
                 port: 587,
                 auth: {
-                    user: process.env.BREVO_USER,
-                    pass: process.env.BREVO_PASS,
+                    user: process.env.BREVO_SERVER_USER,
+                    pass: process.env.BREVO_SERVER_PASS,
                 },
             });
 
             await transporter.sendMail({
-                from: 'BlogIQ <thefastrobz@gmail.com>',
+                from: `BlogIQ <${process.env.BREVO_EMAIL_FROM}>`,
                 to: email,
                 subject: 'Verify your email - BlogIQ',
                 html: `<p>Click the link to verify your email to continue using BlogIQ: <a href="${link}">Verify Email</a></p>`,

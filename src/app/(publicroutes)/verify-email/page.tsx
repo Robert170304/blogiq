@@ -22,8 +22,6 @@ const VerifyEmailPage = () => {
 
             const result = await apiHelper('/api/verifyEmail', 'POST', data, false) as SignUpResponse;
 
-            console.log("🚀 ~ signUpUser ~ result:", result)
-
             if (result.token && result.user) {
                 const userdt = result.user
                 // Store token in localStorage or cookies
@@ -58,7 +56,6 @@ const VerifyEmailPage = () => {
     }
 
     useEffect(() => {
-        console.log("🚀 ~ pathname", query.get("identifier"))
         if (!isVerifiedEmailAPIFetched.current) {
             isVerifiedEmailAPIFetched.current = true;
             verifyEmail({ token: query.get("token"), identifier: query.get("identifier") })

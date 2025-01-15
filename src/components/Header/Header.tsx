@@ -21,7 +21,6 @@ const Header = () => {
     const isSigninPage = pathname === '/signin';
     const [openProfileTooltip, setOpenProfileTooltip] = useState(false)
     const userData = useSelector((state: RootState) => state.app.userData);
-    console.log("🚀 ~ Header ~ userData:", userData)
     const isUserLoggedIn = isEmpty(userData);
     const { handleLogout } = useAuthHelper();
     const [isScrolled, setIsScrolled] = useState(false);

@@ -22,7 +22,6 @@ interface DraftReadModalProps {
 export const DraftReadModal: React.FC<DraftReadModalProps> = ({ draftData, isOpen, closeModal }) => {
     const ref = useRef<HTMLInputElement>(null)
     const { width } = useWindowSize()
-    console.log("🚀 ~ width:", width)
     return (
         <DialogRoot
             scrollBehavior="inside"
