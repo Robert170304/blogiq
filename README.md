@@ -1,6 +1,6 @@
 # 📝 BlogIQ - AI-Powered Blogging Made Smarter
 
-BlogIQ is an innovative, AI-driven blogging platform designed to fuel creativity and simplify the content creation process. Featuring cutting-edge technology, BlogIQ empowers users with 🛠️ for seamless blog management and content generation.
+BlogIQ is an innovative, AI-driven blogging platform designed to fuel creativity and simplify the content creation process. Featuring cutting-edge technology, BlogIQ empowers users with intelligent tools for seamless blog management and content generation.
 
 ---
 
