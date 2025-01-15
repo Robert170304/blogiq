@@ -96,9 +96,9 @@ BlogIQ is an innovative, AI-driven blogging platform designed to fuel creativity
 
 ## 🤝 Contributing
 
-We ❤️ contributions! Follow these steps:
+I ❤️ contributions! Follow these steps:
 
-1. Fork 🍴 the repo.
+1. Fork the repo.
 2. Create a new branch:
    ```bash
    git checkout -b feature/your-feature-name
