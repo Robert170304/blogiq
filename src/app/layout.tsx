@@ -17,7 +17,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "BlogIQ - an AI Powered Blogging Platform",
+  title: "BlogIQ",
   description: "Create, curate, and inspire your content creation process.",
 };
 
