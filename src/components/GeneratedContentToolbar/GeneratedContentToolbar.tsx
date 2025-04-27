@@ -1,5 +1,5 @@
 "use client"
-import { Box, Flex, For, HStack, IconButton, Text, VStack } from '@chakra-ui/react'
+import { Flex, For, HStack, IconButton, VStack } from '@chakra-ui/react'
 import React, { useState } from 'react'
 // import { HiSpeakerWave } from 'react-icons/hi2'
 import { Tooltip } from '../ui/tooltip'
@@ -11,25 +11,26 @@ import { SaveDraftModal } from '../SaveDraftModal/SaveDraftModal'
 import { useSelector } from 'react-redux'
 import type { RootState } from '@blogiq/store/store'
 import { isEmpty } from 'lodash'
+import { BiExpandAlt, BiCollapseAlt } from "react-icons/bi";
 // import useTextToSpeech from '@blogiq/hooks/useTextToSpeech'
 
 interface GeneratedContentToolbarProps {
     generatedContent: string;
+    setIsFullScreen: React.Dispatch<React.SetStateAction<boolean>>;
+    isFullScreen: boolean;
 }
 
-const GeneratedContentToolbar: React.FC<GeneratedContentToolbarProps> = ({ generatedContent }) => {
+const GeneratedContentToolbar: React.FC<GeneratedContentToolbarProps> = ({ generatedContent, setIsFullScreen, isFullScreen }) => {
     const [openDraftModal, setOpenDraftModal] = useState(false);
-    // const [ttsStatus, setTTSStatus] = useState("idle");
     const userData = useSelector((state: RootState) => state.app.userData);
-    // const { speak } = useTextToSpeech();
     const toolbarOptions = [
-        // {
-        //     id: 1,
-        //     label: ttsStatus === "playing" ? "Pause" : "Read Aloud",
-        //     icon: ttsStatus === "playing" ? <FaPause color='white' /> : <HiSpeakerWave color='white' />,
-        //     action: handleSpeechAction,
-        //     active: true,
-        // },
+        {
+            id: 1,
+            label: "Expand",
+            icon: isFullScreen ? <BiCollapseAlt color='white' /> : <BiExpandAlt color='white' />,
+            action: () => setIsFullScreen(!isFullScreen),
+            active: true,
+        },
         {
             id: 2,
             label: 'Copy',
@@ -46,26 +47,9 @@ const GeneratedContentToolbar: React.FC<GeneratedContentToolbarProps> = ({ gener
         }
     ]
 
-    // function handleSpeechAction() {
-    //     if (ttsStatus === "playing") {
-    //         window.responsiveVoice.pause();
-    //         setTTSStatus("paused");
-    //     } else if (ttsStatus === "paused") {
-    //         window.responsiveVoice.resume();
-    //         setTTSStatus("playing");
-    //     } else {
-    //         speak(generatedContent, {
-    //             voice: "UK English Male",
-    //             rate: 1.1,
-    //             onstart: () => setTTSStatus("playing"),
-    //             onend: () => setTTSStatus("idle"),
-    //         });
-    //     }
-    // };
-
     return (
         <Flex position="relative" top="-2px" borderRadius="0 0 15px 15px" background="#181818" justifyContent="space-between" alignItems="center">
-            <HStack wrap="wrap" gap="0" background="#202123"
+            <HStack wrap="wrap" gap="5px" background="#202123"
                 borderRadius="10px"
                 margin="10px">
                 <For each={toolbarOptions}>
@@ -96,11 +80,6 @@ const GeneratedContentToolbar: React.FC<GeneratedContentToolbarProps> = ({ gener
                 </For>
 
             </HStack>
-            <Box textAlign="center" margin="10px">
-                <Text fontSize="10px" color="gray.500">
-                    Powered by GPT-4o
-                </Text>
-            </Box>
             <SaveDraftModal
                 generatedContent={generatedContent}
                 isOpen={openDraftModal}

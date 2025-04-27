@@ -48,7 +48,7 @@ export default async function RootLayout({ children, params }: Readonly<LayoutPr
                 flex="1"
                 display="flex"
                 padding="0"
-                overflowY="scroll"
+                overflowY="auto"
                 pr={{ base: "10px", sm: "10px", md: "10", lg: "20" }}
                 pl={{ base: "10px", sm: "10px", md: "10", lg: "20" }}
                 pb={{ base: "10px", sm: "10px", md: "10", lg: "20" }}

@@ -9,8 +9,9 @@ import {
     DialogRoot,
     DialogTitle,
 } from "../ui/dialog"
-import { Stack, Text } from "@chakra-ui/react"
+import { Stack } from "@chakra-ui/react"
 import useWindowSize from "@blogiq/hooks/useWindowSizes";
+import ReactMarkdown from "react-markdown";
 
 interface DraftReadModalProps {
     draftData: SavedDraft;
@@ -41,11 +42,18 @@ export const DraftReadModal: React.FC<DraftReadModalProps> = ({ draftData, isOpe
                 <DialogCloseTrigger color="#85878c" onClick={closeModal} />
                 <DialogBody pb="4">
                     <Stack gap="4">
-                        <Text color="#fff" as="pre"
-                            width="100%"
-                            whiteSpace="pre-wrap"
-                            wordBreak="break-word"
-                            overflowX="auto" >{draftData.content}</Text>
+                        <ReactMarkdown
+                            components={{
+                                p: ({ ...props }) => (
+                                    <p
+                                        {...props}
+                                        className="prose prose-invert max-w-none"
+                                    />
+                                ),
+                            }}
+                        >
+                            {draftData.content}
+                        </ReactMarkdown>
                     </Stack>
                 </DialogBody>
             </DialogContent>
