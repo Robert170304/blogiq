@@ -10,7 +10,6 @@ import {
     DialogTitle,
 } from "../ui/dialog"
 import { Stack } from "@chakra-ui/react"
-import useWindowSize from "@blogiq/hooks/useWindowSizes";
 import ReactMarkdown from "react-markdown";
 
 interface DraftReadModalProps {
@@ -22,11 +21,10 @@ interface DraftReadModalProps {
 
 export const DraftReadModal: React.FC<DraftReadModalProps> = ({ draftData, isOpen, closeModal }) => {
     const ref = useRef<HTMLInputElement>(null)
-    const { width } = useWindowSize()
     return (
         <DialogRoot
             scrollBehavior="inside"
-            size={width !== undefined && width <= 500 ? "full" : "md"}
+            size="full"
             motionPreset="slide-in-bottom"
             closeOnInteractOutside={isOpen}
             closeOnEscape

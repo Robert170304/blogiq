@@ -6,7 +6,6 @@ import Providers from "./Providers";
 import { Session } from "next-auth";
 import { Toaster } from 'react-hot-toast';
 import Header from "@blogiq/components/Header/Header";
-import Footer from "@blogiq/components/Footer/Footer";
 import SessionWatcher from "@blogiq/components/SessionWatcher/SessionWatcher";
 import Script from "next/script";
 
@@ -56,7 +55,6 @@ export default async function RootLayout({ children, params }: Readonly<LayoutPr
                 {children}
               </Container>
             </Box>
-            <Footer />
           </Flex>
         </Providers>
         <Script src="https://code.responsivevoice.org/responsivevoice.js?key=Uvok8Skn" strategy="beforeInteractive" />

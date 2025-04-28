@@ -72,7 +72,7 @@ const ContentGenerator = () => {
                     right: isFullScreen ? 0 : "auto",
                     bottom: isFullScreen ? 0 : "auto",
                     background: isFullScreen ? "#181818" : "transparent",
-                    zIndex: isFullScreen ? 9999 : "auto",
+                    zIndex: isFullScreen ? 1111 : "auto",
                 }}
             >
                 <Flex
@@ -155,7 +155,8 @@ const ContentGenerator = () => {
                             justify="center"
                             width="100%"
                             minHeight="300px"
-                            maxHeight={isFullScreen ? "max-content" : "600px"}
+                            h={isFullScreen ? "100%" : "auto"}
+                            maxHeight={isFullScreen ? "auto" : "600px"}
                         >
                             <Box
                                 padding="10px 10px"

@@ -26,7 +26,7 @@ const GeneratedContentToolbar: React.FC<GeneratedContentToolbarProps> = ({ gener
     const toolbarOptions = [
         {
             id: 1,
-            label: "Expand",
+            label: isFullScreen ? "Collapse" : "Expand",
             icon: isFullScreen ? <BiCollapseAlt color='white' /> : <BiExpandAlt color='white' />,
             action: () => setIsFullScreen(!isFullScreen),
             active: true,
