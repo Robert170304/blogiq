@@ -94,7 +94,7 @@ const ContentGenerator = () => {
                                 id="content-generator-input"
                                 className="content-generator-input"
                                 textStyle="body"
-                                placeholder="Start typing... the AI magic happens next!"
+                                placeholder="Type your idea..."
                                 size="lg"
                                 variant="flushed"
                                 borderRadius="20px"
